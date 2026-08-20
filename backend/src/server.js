@@ -10,7 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*" // Allows requests from your Vercel frontend domain
+    origin: "*"
   })
 );
 
@@ -33,26 +33,54 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/contact", contactRoutes);
 
+let dbConnected = false;
+
+const ensureDBConnection = async () => {
+  if (!dbConnected) {
+    await connectDB();
+    dbConnected = true;
+  }
+};
+
+app.use("/api/auth", async (req, res, next) => {
+  try {
+    await ensureDBConnection();
+    next();
+  } catch (error) {
+    console.error("Database connection failed:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Database connection failed"
+    });
+  }
+});
+
+app.use("/api/contact", async (req, res, next) => {
+  try {
+    await ensureDBConnection();
+    next();
+  } catch (error) {
+    console.error("Database connection failed:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Database connection failed"
+    });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 
-// Only start the local server if NOT running on Vercel's production environment
 if (process.env.NODE_ENV !== "production") {
-  const startServer = async () => {
+  app.listen(PORT, async () => {
     try {
       await connectDB();
-
-      app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-      });
+      dbConnected = true;
+      console.log(`Server running on http://localhost:${PORT}`);
     } catch (error) {
-      console.error("Unable to start server");
+      console.error("Unable to connect to database");
       console.error(error.message);
-      process.exit(1);
     }
-  };
-
-  startServer();
+  });
 }
 
-// CRITICAL: Export the app so Vercel can handle it as a serverless function
 module.exports = app;
