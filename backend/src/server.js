@@ -10,7 +10,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173"
+    origin: "*" // Allows requests from your Vercel frontend domain
   })
 );
 
@@ -35,18 +35,24 @@ app.use("/api/contact", contactRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-const startServer = async () => {
-  try {
-    await connectDB();
+// Only start the local server if NOT running on Vercel's production environment
+if (process.env.NODE_ENV !== "production") {
+  const startServer = async () => {
+    try {
+      await connectDB();
 
-    app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error("Unable to start server");
-    console.error(error.message);
-    process.exit(1);
-  }
-};
+      app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+      });
+    } catch (error) {
+      console.error("Unable to start server");
+      console.error(error.message);
+      process.exit(1);
+    }
+  };
 
-startServer();
+  startServer();
+}
+
+// CRITICAL: Export the app so Vercel can handle it as a serverless function
+module.exports = app;
