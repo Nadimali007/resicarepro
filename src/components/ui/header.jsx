@@ -207,7 +207,7 @@ export function SiteHeader() {
           </div>
 
           <Link
-            to="/request-service"
+            to="/service"
             className="request-service-link"
             onClick={handleNavigation}
           >

@@ -26,7 +26,7 @@ export default function Home() {
               </p>
               <div className="hero-cta-group">
                 <Button asChild className="btn-primary">
-                  <a href="/request-service">
+                  <a href="/service">
                     REQUEST A SERVICE <ArrowRight size={16} />
                   </a>
                 </Button>

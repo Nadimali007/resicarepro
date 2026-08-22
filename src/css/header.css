@@ -129,6 +129,7 @@ body,
   font-size: 13px !important;
   font-weight: 600 !important;
   white-space: nowrap;
+  cursor: pointer !important;
   box-shadow: none !important;
   transition: background-color 0.2s ease, transform 0.2s ease !important;
 }
