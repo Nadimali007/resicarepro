@@ -164,13 +164,15 @@ export function SiteHeader() {
           >
             Home
           </Link>
+
           <Link
-            to="/services"
-            className={isActive("/services") ? "active" : ""}
+            to="/service"
+            className={isActive("/service") ? "active" : ""}
             onClick={handleNavigation}
           >
             Services
           </Link>
+
           <Link
             to="/about"
             className={isActive("/about") ? "active" : ""}
@@ -178,6 +180,7 @@ export function SiteHeader() {
           >
             About
           </Link>
+
           <Link
             to="/projects"
             className={isActive("/projects") ? "active" : ""}
@@ -185,6 +188,7 @@ export function SiteHeader() {
           >
             Projects
           </Link>
+
           <Link
             to="/contact"
             className={isActive("/contact") ? "active" : ""}
@@ -400,13 +404,15 @@ export function SiteHeader() {
           >
             Home
           </Link>
+
           <Link
-            to="/services"
-            className={isActive("/services") ? "active" : ""}
+            to="/service"
+            className={isActive("/service") ? "active" : ""}
             onClick={handleNavigation}
           >
             Services
           </Link>
+
           <Link
             to="/about"
             className={isActive("/about") ? "active" : ""}
@@ -414,6 +420,7 @@ export function SiteHeader() {
           >
             About
           </Link>
+
           <Link
             to="/projects"
             className={isActive("/projects") ? "active" : ""}
@@ -421,6 +428,7 @@ export function SiteHeader() {
           >
             Projects
           </Link>
+
           <Link
             to="/contact"
             className={isActive("/contact") ? "active" : ""}
@@ -441,7 +449,7 @@ export function SiteHeader() {
 
         <div className="sidebar-actions">
           <Link
-            to="/request-service"
+            to="/service"
             onClick={handleNavigation}
           >
             <Button className="sidebar-request-btn">

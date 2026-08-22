@@ -5,14 +5,11 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Login from "./pages/login";
-import Register from "./pages/register";
 import About from "./pages/about";
 import Home from "./pages/home";
 import Contact from "./pages/contact";
-
-import ProtectedRoute from "./components/ProtectedRoute";
-import PublicRoute from "./components/PublicRoute";
+import Projects from "./pages/projects"
+import Service from "./pages/service"
 
 import "./App.css";
 
@@ -20,23 +17,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<PublicRoute />}>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
-
-        <Route element={<ProtectedRoute />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Route>
-
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-
-        <Route
-          path="*"
-          element={<Navigate to="/home" replace />}
-        />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/service" element={<Service/>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

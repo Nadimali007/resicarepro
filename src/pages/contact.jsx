@@ -1,10 +1,11 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { SiteHeader } from "@/components/ui/header.jsx";
 import { SiteFooter } from "@/components/ui/footer.jsx";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin } from "lucide-react";
-import { submitContactForm } from "@/api/contactapi";
+import Mapimage from "@/assets/map.png";
 import "@/css/contact.css";
 
 export default function Contact() {
@@ -73,12 +74,23 @@ export default function Contact() {
     try {
       setLoading(true);
 
-      const response = await submitContactForm(formData);
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID,
+        {
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        },
+        {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
+      );
 
       setStatus({
         type: "success",
-        message:
-          response.message || "Your message has been sent successfully.",
+        message: "Your message has been sent successfully.",
       });
 
       setFormData({
@@ -88,11 +100,11 @@ export default function Contact() {
         message: "",
       });
     } catch (error) {
+      console.error("EmailJS Error:", error);
+
       setStatus({
         type: "error",
-        message:
-          error.response?.data?.message ||
-          "Unable to send your message. Please try again.",
+        message: "Unable to send your message. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -153,13 +165,10 @@ export default function Contact() {
 
                 <div className="contact-map-card">
                   <div className="contact-map">
-                    <div className="map-grid"></div>
-
-                    <div className="map-pin pin-one">●</div>
-                    <div className="map-pin pin-two">●</div>
-                    <div className="map-pin pin-three">●</div>
-
-                    <div className="map-label">Islamabad</div>
+                    <img
+                      src={Mapimage}
+                      alt="Islamabad map"
+                    />
                   </div>
                 </div>
               </div>
